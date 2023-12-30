@@ -4,9 +4,7 @@
   │ v1.0.0-New                                                              │
   │ Copyright(c) Rafael Soley R.                                            │
   └─────────────────────────────────────────────────────────────────────────┘
---]]
-
--- // Imports \\ --
+--]] -- // Imports \\ --
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanLib/main/merc.lua"))()
 
 -- // Config \\ --
@@ -15,26 +13,93 @@ local textToSpam = "DanHub is the best hub"
 local waitTime = 1
 local Noclip = nil
 local Clip = nil
+local player = game.Players.LocalPlayer
+local esp = false
+local espColor = Color3.fromRGB(255, 0, 0)
+
+-- // Services \\ --
+local Players = game:GetService("Players")
+local Run = game:GetService("RunService")
+
+-- // ESP \\ --
+local espHighlight = Instance.new("Highlight")
+espHighlight.Name = "Highlight"
+
+repeat wait() until esp
+for i, v in pairs(Players:GetChildren()) do
+  repeat
+    wait()
+  until v.Character
+  repeat wait() until esp
+  if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+    local espHighlightClone = espHighlight:Clone()
+    espHighlightClone.Adornee = v.Character
+    espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
+    espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+    espHighlightClone.Color3 = espColor
+    espHighlightClone.Name = "Highlight"
+  end
+end
+
+Run.Heartbeat:Connect(function()
+  for i, v in pairs(Players:GetChildren()) do
+    repeat
+      wait()
+    until v.Character
+    repeat wait() until esp
+    if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+      local espHighlightClone = espHighlight:Clone()
+      espHighlightClone.Adornee = v.Character
+      espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
+      espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+      espHighlightClone.Color3 = espColor
+      espHighlightClone.Name = "Highlight"
+      task.wait()
+    end
+  end
+end)
+
+-- // Events \\ --
+game.Players.PlayerAdded:Connect(function(plr)
+  repeat
+    wait()
+  until plr.Character
+  repeat wait() until esp
+  if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+    local espHighlightClone = espHighlight:Clone()
+    espHighlightClone.Adornee = plr.Character
+    espHighlightClone.Parent = plr.Character:FindFirstChild("HumanoidRootPart")
+    espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+    espHighlightClone.Color3 = espColor
+    espHighlightClone.Name = "Highlight"
+  end
+end)
+game.Players.PlayerRemoving:Connect(function(plr)
+  repeat wait() until esp
+  plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
+end)
 
 -- // Functions \\ --
 function noclip()
-	Clip = false
-	local function Nocl()
-		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
-			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
-					v.CanCollide = false
-				end
-			end
-		end
-		wait(0.21) -- basic optimization
-	end
-	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+  Clip = false
+  local function Nocl()
+    if Clip == false and player.Character ~= nil then
+      for _, v in pairs(player.Character:GetDescendants()) do
+        if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+          v.CanCollide = false
+        end
+      end
+    end
+    wait(0.21) -- basic optimization
+  end
+  Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
 end
 
 function clip()
-	if Noclip then Noclip:Disconnect() end
-	Clip = true
+  if Noclip then
+    Noclip:Disconnect()
+  end
+  Clip = true
 end
 
 -- // Main \\ --
@@ -42,40 +107,45 @@ local GUI = Lib:Create{
   Name = "DanHub",
   Size = UDim2.fromOffset(600, 400),
   Theme = Lib.Themes.Dark,
-  Link = "https://github.com/rsley/DanHub",
+  Link = "https://github.com/rsley/DanHub"
 }
---GUI:Credit{
+-- GUI:Credit{
 --  Name = "IDEalistic",
 --  Description = "Developed the script and modified the library",
 --  Discord = "idealistical"
---}
+-- }
 GUI:Notification{
   Title = "Welcome",
-  Text = "Welcome to DanHub, made by IDEalistic, your current game is " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
+  Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
+    game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
   Duration = 3
 }
 
 -- // Tabs \\ --
 local Main = GUI:Tab{
-	Name = "Main",
-	Icon = "rbxassetid://8569322835"
+  Name = "Main",
+  Icon = "rbxassetid://8569322835"
 }
 local Local = GUI:Tab{
   Name = "Local",
   Icon = "rbxassetid://8569322835"
 }
+local ESP = Gui:Tab{
+  Name = "ESP",
+  Icon = "rbxassetid://8569322835"
+}
 
 -- // Main Tab \\ --
 Main:Button{
-	Name = "Destroy GUI",
-	Description = "Destroy DanHub's GUI",
-	Callback = function()
+  Name = "Destroy GUI",
+  Description = "Destroy DanHub's GUI",
+  Callback = function()
     GUI:Notification{
       Title = "Alert",
       Text = "DanHub will be destroyed in 3 seconds.",
       Duration = 3,
       Callback = function()
-        for i,v in pairs(game.CoreGui:GetDescendants()) do
+        for i, v in pairs(game.CoreGui:GetDescendants()) do
           if v.Name == getgenv().Hy_Name then
             v:Destroy()
           end
@@ -121,11 +191,39 @@ Main:Button{
   Name = "Vape V4",
   Description = "Vape V4 for Roblox, by 7GrandDadPGN",
   Callback = function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4For Roblox/main/NewMainScript.lua", true))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4For Roblox/main/NewMainScript.lua",
+      true))()
   end
 }
 
 -- // Local Tab \\ --
+Local:Button{
+  Name = "Rejoin",
+  Description = "Rejoins the game",
+  Callback = function()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+  end
+}
+Local:Button{
+  Name = "Server Hop",
+  Description = "Hops servers",
+  Callback = function()
+    local Servers = {}
+    for i, v in pairs(game:GetService("TeleportService"):GetLocalPlayerTeleportPagingAsync(game.PlaceId)) do
+      table.insert(Servers, v)
+    end
+    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, Servers[math.random(1, #Servers)].Id)
+  end
+}
+Local:Button{
+  Name = "Spawn Part",
+  Description = "Spawns a part beneath your feet",
+  Callback = function()
+    local part = Instance.new("Part")
+    part.Parent = game.Workspace
+    part.CFrame = player.Character.HumanoidRootPart.CFrame
+  end
+}
 Local:Slider{
   Name = "WalkSpeed",
   Description = "Changes your walkspeed",
@@ -133,7 +231,7 @@ Local:Slider{
   Min = 16,
   Max = 500,
   Callback = function(value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+    player.Character.Humanoid.WalkSpeed = value
   end
 }
 Local:Slider{
@@ -143,7 +241,7 @@ Local:Slider{
   Min = 50,
   Max = 500,
   Callback = function(value)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+    player.Character.Humanoid.JumpPower = value
   end
 }
 Local:Slider{
@@ -153,7 +251,7 @@ Local:Slider{
   Min = 0,
   Max = 500,
   Callback = function(value)
-    game.Players.LocalPlayer.Character.Humanoid.HipHeight = value
+    player.Character.Humanoid.HipHeight = value
   end
 }
 Local:Slider{
@@ -176,5 +274,35 @@ Local:Toggle{
     else
       clip()
     end
+  end
+}
+
+-- // ESP Tab \\ --
+ESP:Toggle{
+  Name = "ESP",
+  StartingState = false,
+  Description = "Extrasensory perception",
+  Callback = function(state)
+    if state then
+      esp = true
+    else
+      if esp then
+        for i, v in pairs(Players:GetChildren()) do
+          v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
+        end
+      end
+      esp = false
+    end
+  end
+}
+ESP:ColorPicker{
+  Style = Lib.ColorPickerStyles.Legacy,
+  Callback = function(color)
+    espColor = color
+    GUI:Notification{
+      Title = "Info",
+      Text = "ESP color changed to " .. tostring(color) .. " If it does not take place immediately, please toggle off and on the ESP.",
+      Duration = 3
+    }
   end
 }
