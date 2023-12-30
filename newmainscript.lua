@@ -52,7 +52,7 @@ GUI:Credit{
 GUI:Notification{
   Title = "Welcome",
   Text = "Welcome to DanHub, made by IDEalistic, your current game is " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
-  Duration = 5
+  Duration = 3
 }
 
 -- // Tabs \\ --
@@ -72,8 +72,8 @@ Main:Button{
 	Callback = function()
     GUI:Notification{
       Title = "Alert",
-      Text = "DanHub will be destroyed in 5 seconds.",
-      Duration = 5,
+      Text = "DanHub will be destroyed in 3 seconds.",
+      Duration = 3,
       Callback = function()
         for i,v in pairs(game.CoreGui:GetDescendants()) do
           if v.Name == getgenv().Hy_Name then
@@ -84,27 +84,23 @@ Main:Button{
     }
   end
 }
-Main:Toggle{
-  Name = "Dark Dex",
-  StartingState = true,
-  Description = "Makes Dex Explorer dark (before running it)",
-  Callback = function(state)
-    if state then
-      darkDex = true
-    else
-      darkDex = false
-    end
-  end
-}
 Main:Button{
   Name = "Dex Explorer",
   Description = "Opens Dex Explorer",
   Callback = function()
-    if(darkDex) then
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/dexdark.lua"))()
-    else
-      loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()   
-    end
+    GUI:Prompt{
+      Followup = false,
+      Title = "Dex Explorer",
+      Text = "Do you want to use the regular or dark version?",
+      Buttons = {
+        dark = function()
+          loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/dexdark.lua"))()
+        end,
+        regular = function()
+          loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()
+        end
+      }
+    }
   end
 }
 Main:Button{
