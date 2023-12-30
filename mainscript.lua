@@ -43,7 +43,7 @@ GlobalMain:NewButton("Unnamed ESP", "ESP", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua"))()
 end)
 GlobalMain:NewButton("Vape V4", "Vape V4 for Roblox, by 7GrandDadPGN", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4For Roblox/main/NewMainScript.lua", true))()
 end)
 
 local GlobalCredits = GlobalTab:NewSection("Credits")
