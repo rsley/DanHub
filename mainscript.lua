@@ -53,7 +53,7 @@ end)
 
 local LocalMain = LocalTab:NewSection("Local Modifications")
 
-LocalMain:NewSclider("Walkspeed", "Changes your walking speed", 100, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+LocalMain:NewSlider("Walkspeed", "Changes your walking speed", 100, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 LocalMain:NewSlider("Jump Power", "Changes your jump power", 100, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
@@ -81,13 +81,16 @@ local LocalChat = LocalTab:NewSection("Chat Utils")
 
 LocalChat:NewTextBox("Chat Message", "Chat message to spam", function(txt)
     textToSpam = txt
+    print(textToSpam)
 end)
 LocalChat:NewSlider("Delay", "Delay between messages", 10, 1, function(s) -- 10 (MaxValue) | 1 (MinValue)
     waitTime = s
+    print(waitTime)
 end)
 LocalChat:NewToggle("Chat Spammer", "Spams the chat", function(state)
     if state then
-        while wait(waitTime) do
+        while true do 
+            wait(waitTime)
             game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(textToSpam, "All")
         end
     end
