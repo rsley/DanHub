@@ -45,6 +45,13 @@ end)
 GlobalMain:NewButton("Vape V4", "Vape V4 for Roblox, by 7GrandDadPGN", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4For Roblox/main/NewMainScript.lua", true))()
 end)
+GlobalMain:NewButton("CheatX", "General Loading CheatX script", function()
+    if not syn then
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/2dgeneralspam1/lua-releases/main/iris-compat.lua'))()
+    end
+
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/2dgeneralspam1/CheatX/main/loader.lua'))()
+end)
 
 local GlobalCredits = GlobalTab:NewSection("Credits")
 GlobalCredits:NewButton("IDEalistic", "Creator of this gui, click for the discord", function()
@@ -76,3 +83,6 @@ LocalMain:NewToggle("Noclip", "Allows you to noclip through walls", function(sta
         end)
     end
 end)
+
+local LocalESP = LocalTab:NewSection("ESP")
+LocalESP:NewLabel("Under development.")
