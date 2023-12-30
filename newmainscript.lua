@@ -245,9 +245,11 @@ ESP:Toggle{
   Callback = function(state)
     if state then
       getgenv().Hy_ESP.Enabled = true
+      print("ESP Enabled")
       loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanLib/main/utils/esp.lua"))()
     else
       getgenv().Hy_ESP.Enabled = false
+      print("ESP disabled")
     end
   end
 }
