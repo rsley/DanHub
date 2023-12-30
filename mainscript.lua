@@ -44,7 +44,7 @@ GlobalMain:NewButton("Unnamed ESP", "ESP", function()
 end)
 GlobalMain:NewButton("Vape V4", "Vape V4 for Roblox, by 7GrandDadPGN", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
-end
+end)
 
 local GlobalCredits = GlobalTab:NewSection("Credits")
 GlobalCredits:NewButton("IDEalistic", "Creator of this gui, click for the discord", function()
