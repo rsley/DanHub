@@ -45,22 +45,22 @@ end
 
 -- // Events \\ --
 if esp then
-game.Players.PlayerAdded:Connect(function(plr)
-  repeat
-    wait()
-  until plr.Character
-  if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-    local espHighlightClone = espHighlight:Clone()
-    espHighlightClone.Adornee = plr.Character
-    espHighlightClone.Parent = plr.Character:FindFirstChild("HumanoidRootPart")
-    espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-    espHighlightClone.Color3 = espColor
-    espHighlightClone.Name = "Highlight"
-  end
-end)
-game.Players.PlayerRemoving:Connect(function(plr)
-  plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
-end)
+  game.Players.PlayerAdded:Connect(function(plr)
+    repeat
+      wait()
+    until plr.Character
+    if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+      local espHighlightClone = espHighlight:Clone()
+      espHighlightClone.Adornee = plr.Character
+      espHighlightClone.Parent = plr.Character:FindFirstChild("HumanoidRootPart")
+      espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+      espHighlightClone.Color3 = espColor
+      espHighlightClone.Name = "Highlight"
+    end
+  end)
+  game.Players.PlayerRemoving:Connect(function(plr)
+    plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
+  end)
 end
 
 -- // Functions \\ --
@@ -114,7 +114,7 @@ local Local = GUI:Tab{
   Name = "Local",
   Icon = "rbxassetid://8569322835"
 }
-local ESP = Gui:Tab{
+local ESP = GUI:Tab{
   Name = "ESP",
   Icon = "rbxassetid://8569322835"
 }
