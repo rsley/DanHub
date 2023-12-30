@@ -31,8 +31,12 @@ MainSection:Button({
     ButtonName = "Destroy's DanHub GUI",
     Description = "kills danhub",
     },
-    function(value)
-        print(value)
+    function()
+        for i,v in pairs(game.CoreGui:GetDescendants()) do
+            if v.Name == getgenv().Hy_GuiName then
+                v:Destroy()
+            end
+        end
     end)
 MainSection:Toggle({
     Title = "Auto Farm Coins",
