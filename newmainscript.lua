@@ -29,7 +29,7 @@ for i, v in pairs(Players:GetChildren()) do
   repeat
     wait()
   until v.Character
-  repeat wait() until esp
+  if not esp then break end
   if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
     local espHighlightClone = espHighlight:Clone()
     espHighlightClone.Adornee = v.Character
@@ -45,7 +45,7 @@ Run.Heartbeat:Connect(function()
     repeat
       wait()
     until v.Character
-    repeat wait() until esp
+    if not esp then break end
     if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
       local espHighlightClone = espHighlight:Clone()
       espHighlightClone.Adornee = v.Character
@@ -63,7 +63,7 @@ game.Players.PlayerAdded:Connect(function(plr)
   repeat
     wait()
   until plr.Character
-  repeat wait() until esp
+  if not esp then break end
   if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
     local espHighlightClone = espHighlight:Clone()
     espHighlightClone.Adornee = plr.Character
