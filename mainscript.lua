@@ -84,7 +84,7 @@ LocalChat:NewTextBox("Chat Message", "Chat message to spam", function(txt)
 end)
 LocalChat:NewSlider("Delay", "Delay between messages", 10, 1, function(s) -- 10 (MaxValue) | 1 (MinValue)
     waitTime = s
-end
+end)
 LocalChat:NewToggle("Chat Spammer", "Spams the chat", function(state)
     if state then
         while wait(waitTime) do
