@@ -65,7 +65,7 @@ local Local = GUI:Tab{
   Icon = "rbxassetid://8569322835"
 }
 
--- // Naub Tab \\ --
+-- // Main Tab \\ --
 Main:Button{
 	Name = "Destroy GUI",
 	Description = "Destroy DanHub's GUI",
