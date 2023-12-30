@@ -44,11 +44,11 @@ local GUI = Lib:Create{
   Theme = Lib.Themes.Dark,
   Link = "https://github.com/rsley/DanHub",
 }
-GUI:Credit{
-  Name = "IDEalistic",
-  Description = "Developed the script and modified the library",
-  Discord = "idealistical"
-}
+--GUI:Credit{
+--  Name = "IDEalistic",
+--  Description = "Developed the script and modified the library",
+--  Discord = "idealistical"
+--}
 GUI:Notification{
   Title = "Welcome",
   Text = "Welcome to DanHub, made by IDEalistic, your current game is " .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
