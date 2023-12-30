@@ -76,22 +76,3 @@ LocalMain:NewToggle("Noclip", "Allows you to noclip through walls", function(sta
         end)
     end
 end)
-
-local LocalChat = LocalTab:NewSection("Chat Utils")
-
-LocalChat:NewTextBox("Chat Message", "Chat message to spam", function(txt)
-    textToSpam = txt
-    print(textToSpam)
-end)
-LocalChat:NewSlider("Delay", "Delay between messages", 10, 1, function(s) -- 10 (MaxValue) | 1 (MinValue)
-    waitTime = s
-    print(waitTime)
-end)
-LocalChat:NewToggle("Chat Spammer", "Spams the chat", function(state)
-    if state then
-        while true do 
-            wait(waitTime)
-            game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(textToSpam, "All")
-        end
-    end
-end)
