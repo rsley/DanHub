@@ -25,7 +25,6 @@ local Run = game:GetService("RunService")
 local espHighlight = Instance.new("Highlight")
 espHighlight.Name = "Highlight"
 
-repeat wait() until esp
 for i, v in pairs(Players:GetChildren()) do
   repeat
     wait()
