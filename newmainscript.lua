@@ -24,46 +24,31 @@ local Run = game:GetService("RunService")
 -- // ESP \\ --
 local espHighlight = Instance.new("Highlight")
 espHighlight.Name = "Highlight"
-
-for i, v in pairs(Players:GetChildren()) do
-  repeat
-    wait()
-  until v.Character
-  if not esp then break end
-  if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-    local espHighlightClone = espHighlight:Clone()
-    espHighlightClone.Adornee = v.Character
-    espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
-    espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-    espHighlightClone.Color3 = espColor
-    espHighlightClone.Name = "Highlight"
-  end
+if esp then
+  Run.Heartbeat:Connect(function()
+    for i, v in pairs(Players:GetChildren()) do
+      repeat
+        wait()
+      until v.Character
+      if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+        local espHighlightClone = espHighlight:Clone()
+        espHighlightClone.Adornee = v.Character
+        espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
+        espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+        espHighlightClone.Color3 = espColor
+        espHighlightClone.Name = "Highlight"
+        task.wait()
+      end
+    end
+  end)
 end
 
-Run.Heartbeat:Connect(function()
-  for i, v in pairs(Players:GetChildren()) do
-    repeat
-      wait()
-    until v.Character
-    if not esp then break end
-    if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-      local espHighlightClone = espHighlight:Clone()
-      espHighlightClone.Adornee = v.Character
-      espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
-      espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-      espHighlightClone.Color3 = espColor
-      espHighlightClone.Name = "Highlight"
-      task.wait()
-    end
-  end
-end)
-
 -- // Events \\ --
+if esp then
 game.Players.PlayerAdded:Connect(function(plr)
   repeat
     wait()
   until plr.Character
-  if not esp then break end
   if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
     local espHighlightClone = espHighlight:Clone()
     espHighlightClone.Adornee = plr.Character
@@ -74,9 +59,9 @@ game.Players.PlayerAdded:Connect(function(plr)
   end
 end)
 game.Players.PlayerRemoving:Connect(function(plr)
-  repeat wait() until esp
   plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
 end)
+end
 
 -- // Functions \\ --
 function noclip()
@@ -284,6 +269,19 @@ ESP:Toggle{
   Callback = function(state)
     if state then
       esp = true
+      for i, v in pairs(Players:GetChildren()) do
+        repeat
+          wait()
+        until v.Character
+        if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+          local espHighlightClone = espHighlight:Clone()
+          espHighlightClone.Adornee = v.Character
+          espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
+          espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
+          espHighlightClone.Color3 = espColor
+          espHighlightClone.Name = "Highlight"
+        end
+      end
     else
       if esp then
         for i, v in pairs(Players:GetChildren()) do
@@ -300,7 +298,8 @@ ESP:ColorPicker{
     espColor = color
     GUI:Notification{
       Title = "Info",
-      Text = "ESP color changed to " .. tostring(color) .. " If it does not take place immediately, please toggle off and on the ESP.",
+      Text = "ESP color changed to " .. tostring(color) ..
+        " If it does not take place immediately, please toggle off and on the ESP.",
       Duration = 3
     }
   end
