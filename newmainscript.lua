@@ -298,8 +298,7 @@ ESP:ColorPicker{
     espColor = color
     GUI:Notification{
       Title = "Info",
-      Text = "ESP color changed to " .. tostring(color) ..
-        " If it does not take place immediately, please toggle off and on the ESP.",
+      Text = "ESP color has been changed. If it does not apply immediately, please toggle ESP off and on again.",
       Duration = 3
     }
   end
