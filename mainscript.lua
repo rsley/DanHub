@@ -4,7 +4,8 @@
   │ v0.0.1-Old                                                              │
   │ Copyright(c) Rafael Soley R.                                            │
   └─────────────────────────────────────────────────────────────────────────┘
---]] local Library = loadstring(game:HttpGet "https://raw.githubusercontent.com/rsley/DanLib/main/file.lua")()
+--]]
+local Library = loadstring(game:HttpGet "https://raw.githubusercontent.com/rsley/DanLib/main/file.lua")()
 local Window = Library.CreateLib("DanHub", "Ocean")
 
 local GlobalTab = Window:NewTab("Global")

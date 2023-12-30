@@ -4,7 +4,7 @@
   │ v1.0.0-New                                                              │
   │ Copyright(c) Rafael Soley R.                                            │
   └─────────────────────────────────────────────────────────────────────────┘
---]] -- // Imports \\ --
+--]]-- // Imports \\ --
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanLib/main/merc.lua"))()
 
 -- // Config \\ --
@@ -14,54 +14,31 @@ local waitTime = 1
 local Noclip = nil
 local Clip = nil
 local player = game.Players.LocalPlayer
-local esp = false
-local espColor = Color3.fromRGB(255, 0, 0)
 
 -- // Services \\ --
 local Players = game:GetService("Players")
 local Run = game:GetService("RunService")
 
 -- // ESP \\ --
-local espHighlight = Instance.new("Highlight")
-espHighlight.Name = "Highlight"
-if esp then
-  Run.Heartbeat:Connect(function()
-    for i, v in pairs(Players:GetChildren()) do
-      repeat
-        wait()
-      until v.Character
-      if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-        local espHighlightClone = espHighlight:Clone()
-        espHighlightClone.Adornee = v.Character
-        espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
-        espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-        espHighlightClone.Color3 = espColor
-        espHighlightClone.Name = "Highlight"
-        task.wait()
-      end
-    end
-  end)
-end
+getgenv().Hy_ESP = {
+	Enabled = true,
+	Boxes = true,
+	BoxShift = CFrame.new(0,-1.5,0),
+	BoxSize = Vector3.new(4,6,0),
+	Color = Color3.fromRGB(255, 170, 0),
+	FaceCamera = false,
+	Names = true,
+	TeamColor = true,
+	Thickness = 2,
+	AttachShift = 1,
+	TeamMates = true,
+	Players = true,
+	
+	Objects = setmetatable({}, {__mode="kv"}),
+	Overrides = {}
+}
 
 -- // Events \\ --
-if esp then
-  game.Players.PlayerAdded:Connect(function(plr)
-    repeat
-      wait()
-    until plr.Character
-    if not plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-      local espHighlightClone = espHighlight:Clone()
-      espHighlightClone.Adornee = plr.Character
-      espHighlightClone.Parent = plr.Character:FindFirstChild("HumanoidRootPart")
-      espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-      espHighlightClone.Color3 = espColor
-      espHighlightClone.Name = "Highlight"
-    end
-  end)
-  game.Players.PlayerRemoving:Connect(function(plr)
-    plr.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
-  end)
-end
 
 -- // Functions \\ --
 function noclip()
@@ -267,27 +244,10 @@ ESP:Toggle{
   Description = "Extrasensory perception",
   Callback = function(state)
     if state then
-      esp = true
-      for i, v in pairs(Players:GetChildren()) do
-        repeat
-          wait()
-        until v.Character
-        if not v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
-          local espHighlightClone = espHighlight:Clone()
-          espHighlightClone.Adornee = v.Character
-          espHighlightClone.Parent = v.Character:FindFirstChild("HumanoidRootPart")
-          espHighlightClone.DepthMode = Enum.HighlightingDepthMode.AlwaysOnTop
-          espHighlightClone.Color3 = espColor
-          espHighlightClone.Name = "Highlight"
-        end
-      end
+      getgenv().Hy_ESP.Enabled = true
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanLib/main/utils/esp.lua"))()
     else
-      if esp then
-        for i, v in pairs(Players:GetChildren()) do
-          v.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight"):Destroy()
-        end
-      end
-      esp = false
+      getgenv().Hy_ESP.Enabled = false
     end
   end
 }

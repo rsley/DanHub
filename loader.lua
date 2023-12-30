@@ -1,3 +1,11 @@
+--[[ 
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ DanHub Key Loader                                                       │
+  │ v1.0.0-Published                                                        │
+  │ Copyright(c) Rafael Soley R.                                            │
+  └─────────────────────────────────────────────────────────────────────────┘
+--]]
+
 -- Do NOT run this
 -- This was just a sample code I made to demonstrate a key system
 -- and its utilization.

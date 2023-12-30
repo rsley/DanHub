@@ -1,6 +1,12 @@
--- Credits to gamerlel1224 for the initial code and GUI
--- Modified for my needs.
+--[[ 
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ F3X Builder Tools                                                        │
+  │ v1.0.0                                                                  │
+  │ Copyright(c) Rafael Soley R.                                            │
+  └─────────────────────────────────────────────────────────────────────────┘
 
+  Credits to gamerlel1224 for the base code
+--]]
 local scriptexecutorguibygamerlel1224 = Instance.new("ScreenGui")
 local mainexploit = Instance.new("Frame")
 local script = Instance.new("TextBox")
