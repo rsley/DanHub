@@ -36,7 +36,7 @@ GlobalMain:NewToggle("Dark Dex", "Makes Dex Explorer dark (before running it)", 
 end)
 GlobalMain:NewButton("Dex Explorer", "Opens Dex Explorer", function()
     if(darkDex) then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/dexdark.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/dexdark.lua"))()
     else
         loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Dex%20Explorer.txt"))()   
     end
