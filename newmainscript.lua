@@ -13,7 +13,7 @@ local textToSpam = "DanHub is the best hub"
 local waitTime = 1
 local Noclip = nil
 local Clip = nil
-local devMode = getgenv().Hy_Dev
+local dev = nil
 local player = game.Players.LocalPlayer
 local Aimbot = {
   Enabled = false,
@@ -31,10 +31,14 @@ local Aimbot = {
 local gmt = getrawmetatable(game)
 setreadonly(gmt, false)
 local oldNamecall = gmt.__namecall
+local gamename = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
-if not dev then
+if getgenv().Hy_Dev then
+  dev = true
+else
   dev = false
 end
+
 -- // Services \\ --
 local Players = game:GetService("Players")
 local Run = game:GetService("RunService")
@@ -359,16 +363,16 @@ local GUI = Lib:Create{
   Theme = Lib.Themes.Dark,
   Link = "https://github.com/rsley/DanHub"
 }
-if not dev then
-GUI:Notification{
-  Title = "Welcome",
-  Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
-    game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
-  Duration = 3
-}
-else
+
+if dev then
   GUI:Notification{
     Title = "Developer Mode",
+    Text = "You are currently in developer mode, this means that you have access to some features that are not fully finished and may be buggy. You are playing on " .. gamename .. ".",
+    Duration = 5
+  }
+else
+  GUI:Notification{
+    Title = "Welcome",
     Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
       game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
     Duration = 3
