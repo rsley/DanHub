@@ -20,25 +20,7 @@ if not syn or not protectgui then
   getgenv().protectgui = function() end
 end
 
-local SilentAimSettings = {
-  Enabled = false,
-  
-  ClassName = "Universal Silent Aim - Averiias, Stefanuk12, xaxa",
-  ToggleKey = "RightAlt",
-  
-  TeamCheck = false,
-  VisibleCheck = false, 
-  TargetPart = "HumanoidRootPart",
-  SilentAimMethod = "Raycast",
-  
-  FOVRadius = 130,
-  FOVVisible = false,
-  ShowSilentAimTarget = false, 
-  
-  MouseHitPrediction = false,
-  MouseHitPredictionAmount = 0.165,
-  HitChance = 100
-}
+local SilentAimSettings = getgenv().Hy_Silent
 
 -- variables
 getgenv().SilentAimSettings = Settings

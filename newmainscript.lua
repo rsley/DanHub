@@ -15,6 +15,8 @@ local Noclip = nil
 local Clip = nil
 local dev = nil
 local player = game.Players.LocalPlayer
+local walkspeed = player.Character.Humanoid.WalkSpeed
+local jump = player.Character.Humanoid.JumpPower
 local Aimbot = {
   Enabled = false,
   TeamCheck = true,
@@ -28,6 +30,27 @@ local Aimbot = {
   CircleVisible = false,
   CircleThickness = 0
 }
+
+getgenv().Hy_Silent = {
+  Enabled = true,
+  
+  ClassName = "Universal Silent Aim - Averiias, Stefanuk12, xaxa",
+  ToggleKey = "RightShift",
+  
+  TeamCheck = true,
+  VisibleCheck = true, 
+  TargetPart = "Torso",
+  SilentAimMethod = "Raycast",
+  
+  FOVRadius = 130,
+  FOVVisible = true,
+  ShowSilentAimTarget = true, 
+  
+  MouseHitPrediction = false,
+  MouseHitPredictionAmount = 0.165,
+  HitChance = 100
+}
+
 local gmt = getrawmetatable(game)
 setreadonly(gmt, false)
 local oldNamecall = gmt.__namecall
@@ -59,163 +82,9 @@ FOVCircle.NumSides = Aimbot.CircleSides
 FOVCircle.Thickness = Aimbot.CircleThickness
 
 -- // ESP \\ --
-local mainEsp = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()
-getgenv().ExunysDeveloperESP = {
-  DeveloperSettings = {
-    Path = "conf.cfg",
-    UnwrapOnCharacterAbsence = false,
-    UpdateMode = "RenderStepped",
-    TeamCheckOption = "TeamColor",
-    RainbowSpeed = 1, -- Bigger = Slower
-    WidthBoundary = 1.5 -- Smaller Value = Bigger Width
-  },
+-- not working
 
-  Settings = {
-    Enabled = true,
-    PartsOnly = false,
-    TeamCheck = false,
-    AliveCheck = true,
-    LoadConfigOnLaunch = true,
-    EnableTeamColors = false,
-    TeamColor = Color3.fromRGB(170, 170, 255)
-  },
-
-  Properties = {
-    ESP = {
-      Enabled = true,
-      RainbowColor = false,
-      RainbowOutlineColor = true,
-      Offset = 10,
-
-      Color = Color3.fromRGB(255, 255, 255),
-      Transparency = 1,
-      Size = 14,
-
-      OutlineColor = Color3.fromRGB(0, 0, 0),
-      Outline = true,
-
-      DisplayDistance = true,
-      DisplayHealth = false,
-      DisplayName = false,
-      DisplayDisplayName = true,
-      DisplayTool = true
-    },
-
-    Tracer = {
-      Enabled = false,
-      RainbowColor = false,
-      RainbowOutlineColor = false,
-      Position = 1, -- 1 = Bottom; 2 = Center; 3 = Mouse
-
-      Transparency = 1,
-      Thickness = 1,
-      Color = Color3.fromRGB(255, 255, 255),
-
-      Outline = true,
-      OutlineColor = Color3.fromRGB(0, 0, 0)
-    },
-
-    HeadDot = {
-      Enabled = false,
-      RainbowColor = false,
-      RainbowOutlineColor = false,
-
-      Color = Color3.fromRGB(255, 255, 255),
-      Transparency = 1,
-      Thickness = 1,
-      NumSides = 30,
-      Filled = false,
-
-      OutlineColor = Color3.fromRGB(0, 0, 0),
-      Outline = true
-    },
-
-    Box = {
-      Enabled = true,
-      RainbowColor = false,
-      RainbowOutlineColor = false,
-
-      Color = Color3.fromRGB(255, 255, 255),
-      Transparency = 1,
-      Thickness = 1,
-      Filled = false,
-
-      OutlineColor = Color3.fromRGB(0, 0, 0),
-      Outline = true
-    },
-
-    HealthBar = {
-      Enabled = true,
-      RainbowOutlineColor = false,
-      Offset = 4,
-      Blue = 100,
-      Position = 3, -- 1 = Top; 2 = Bottom; 3 = Left; 4 = Right
-
-      Thickness = 1,
-      Transparency = 1,
-
-      OutlineColor = Color3.fromRGB(0, 0, 0),
-      Outline = true
-    },
-
-    Chams = {
-      Enabled = false, -- Keep disabled, broken, WIP...
-      RainbowColor = false,
-
-      Color = Color3.fromRGB(255, 255, 255),
-      Transparency = 0.2,
-      Thickness = 1,
-      Filled = true
-    },
-
-    Crosshair = {
-      Enabled = true,
-      RainbowColor = false,
-      RainbowOutlineColor = false,
-      TStyled = false,
-      Position = 1, -- 1 = Mouse; 2 = Center
-
-      Size = 12,
-      GapSize = 6,
-      Rotation = 0,
-
-      Rotate = false,
-      RotateClockwise = true,
-      RotationSpeed = 5,
-
-      PulseGap = false,
-      PulsingStep = 10,
-      PulsingSpeed = 5,
-      PulsingBounds = {4, 8}, -- {...}[1] => GapSize Min; {...}[2] => GapSize Max
-
-      Color = Color3.fromRGB(0, 255, 0),
-      Thickness = 1,
-      Transparency = 1,
-
-      OutlineColor = Color3.fromRGB(0, 0, 0),
-      Outline = true,
-
-      CenterDot = {
-        Enabled = false,
-        RainbowColor = false,
-        RainbowOutlineColor = false,
-
-        Radius = 2,
-
-        Color = Color3.fromRGB(0, 255, 0),
-        Transparency = 1,
-        Thickness = 1,
-        NumSides = 60,
-        Filled = false,
-
-        OutlineColor = Color3.fromRGB(0, 0, 0),
-        Outline = true
-      }
-    }
-  }
-
-  -- The rest is core data for the functionality of the module...
-}
+-- // Anticheat Bypasses \\ --
 
 -- // Events \\ --
 UserInput.InputBegan:Connect(function(Input)
@@ -497,6 +366,24 @@ Local:Button{
     part.CFrame = player.Character.HumanoidRootPart.CFrame
   end
 }
+Local:Toggle{
+  Name = "Consistent Modifiers",
+  StartingState = false,
+  Description = "Makes your walkspeed and jumppower consistent",
+  Callback = function(state)
+    if state then
+      Run.RenderStepped:Connect(function()
+        player.Character.Humanoid.WalkSpeed = walkspeed
+        player.Character.Humanoid.JumpPower = jump
+      end)
+    else
+      Run.RenderStepped:Connect(function()
+        player.Character.Humanoid.WalkSpeed = 16
+        player.Character.Humanoid.JumpPower = 50
+      end)
+    end
+  end
+}
 Local:Slider{
   Name = "WalkSpeed",
   Description = "Changes your walkspeed",
@@ -505,6 +392,7 @@ Local:Slider{
   Max = 500,
   Callback = function(value)
     player.Character.Humanoid.WalkSpeed = value
+    walkspeed = value
   end
 }
 Local:Slider{
@@ -515,6 +403,7 @@ Local:Slider{
   Max = 500,
   Callback = function(value)
     player.Character.Humanoid.JumpPower = value
+    jump = value
   end
 }
 Local:Slider{
@@ -551,50 +440,7 @@ Local:Toggle{
 }
 
 -- // ESP Tab \\ --
-ESP:Toggle{
-  Name = "ESP",
-  StartingState = false,
-  Description = "Extrasensory perception",
-  Callback = function(state)
-    if state then
-      GUI:Prompt{
-        Followup = false,
-        Title = "ESP",
-        Text = "The current ESP is a little faulty and not fully finished, do you want to load it anyway?",
-        Buttons = {
-          yes = function()
-            mainEsp:Load()
-          end,
-          no = function()
-            GUI:Notification{
-              Title = "Info",
-              Text = "ESP has not been loaded.",
-              Duration = 3
-            }
-          end
-        }
-      }
-    else
-      GUI:Prompt{
-        Followup = false,
-        Title = "ESP",
-        Text = "Do you really want to unload the ESP? Once done, you can not load it back in without rejoining.",
-        Buttons = {
-          yes = function()
-            mainEsp:Exit()
-          end,
-          no = function()
-            GUI:Notification{
-              Title = "Info",
-              Text = "ESP has not been unloaded.",
-              Duration = 3
-            }
-          end
-        }
-      }
-    end
-  end
-}
+-- faulty 
 
 -- // Combat Tab \\ --
 Combat:Button{
@@ -633,15 +479,6 @@ Combat:Toggle{
     end
   end
 }
-if dev then
-  Combat:Button{
-    Name = "Silent Aim (DEV)",
-    Description = "Aims at the closest player without moving your camera",
-    Callback = function(state)
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/dev/beta.silentaim.lua"))()
-    end
-  }
-end
 Combat:ColorPicker{
   Style = Lib.ColorPickerStyles.Legacy,
   Callback = function(color)
