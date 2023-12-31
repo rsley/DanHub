@@ -626,10 +626,9 @@ Combat:Toggle{
     end
   end
 }
-if devMode then
-  Combat:Toggle{
+if dev then
+  Combat:Button{
     Name = "Silent Aim (DEV)",
-    StartingState = false,
     Description = "Aims at the closest player without moving your camera",
     Callback = function(state)
       loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/dev/beta.silentaim.lua"))()
