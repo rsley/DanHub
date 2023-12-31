@@ -296,6 +296,13 @@ Main:Button{
   end
 }
 Main:Button{
+  Name = "Owl Hub",
+  Description = "Owl Hub, a hub for multiple games",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+  end
+}
+Main:Button{
   Name = "Vape V4",
   Description = "Vape V4 for Roblox, by 7GrandDadPGN",
   Callback = function()
