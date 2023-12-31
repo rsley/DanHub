@@ -225,6 +225,7 @@ function playerClosestToMouse()
     return target
   end
 end
+
 -- // Main \\ --
 local GUI = Lib:Create{
   Name = "DanHub",
@@ -251,7 +252,7 @@ end
 -- // Tabs \\ --
 local Main = GUI:Tab{
   Name = "Main",
-  Icon = "rbxassetid://8569322835"
+  Icon = "rbxassetid://15822702695" -- 8569322835
 }
 local Local = GUI:Tab{
   Name = "Local",
@@ -259,11 +260,11 @@ local Local = GUI:Tab{
 }
 local ESP = GUI:Tab{
   Name = "ESP",
-  Icon = "rbxassetid://8569322835"
+  Icon = "rbxassetid://15822599135"
 }
 local Combat = GUI:Tab{
   Name = "Combat",
-  Icon = "rbxassetid://8569322835"
+  Icon = "rbxassetid://15822650055"
 }
 
 -- // Main Tab \\ --
@@ -283,13 +284,6 @@ Main:Button{
         end
       end
     }
-  end
-}
-Main:Button{
-  Name = "Build Tools",
-  Description = "Gives you build tools by F3X",
-  Callback = function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/btools.lua"))()
   end
 }
 Main:Button{
@@ -330,6 +324,13 @@ Main:Button{
   Description = "Owl Hub, a hub for multiple games",
   Callback = function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+  end
+}
+Main:Button{
+  Name = "Vestra",
+  Description = "Vestra hub, maybe patched",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/xandudiscord/Vestra/main/Roblox/loader.lua"))()
   end
 }
 Main:Button{
