@@ -6,6 +6,7 @@
   └─────────────────────────────────────────────────────────────────────────┘
 
   Credits to Kiriot22 for the base ESP system
+  OUTDATED AND FAULTY!
 --]]
 
 --Settings--

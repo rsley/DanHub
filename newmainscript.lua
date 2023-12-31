@@ -168,11 +168,8 @@ Local:Button{
   Name = "Server Hop",
   Description = "Hops servers",
   Callback = function()
-    local Servers = {}
-    for i, v in pairs(game:GetService("TeleportService"):GetLocalPlayerTeleportPagingAsync(game.PlaceId)) do
-      table.insert(Servers, v)
-    end
-    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, Servers[math.random(1, #Servers)].Id)
+    local hopper = loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/serverhop.lua"))()
+    hopper:Teleport(game.PlaceId)
   end
 }
 Local:Button{
@@ -244,19 +241,37 @@ ESP:Toggle{
   Description = "Extrasensory perception",
   Callback = function(state)
     if state then
-      getgenv().Hy_ESP.Enabled = true
-      print("ESP Enabled")
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/esp.lua"))()
+      GUI:Prompt{
+        Followup = false,
+        Title = "ESP",
+        Text = "The ESP is a little faulty and therefore is only working for Name ESP. Still run?",
+        Buttons = {
+          yes = function()
+            getgenv().Hy_ESP.Enabled = true
+            print("ESP Enabled")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/esp.lua"))()
+          end,
+          no = function()
+            GUI:Notification{
+              Title = "Info",
+              Text = "Alright, we will not run ESP. Sorry for the inconvenience.",
+              Duration = 3
+            }
+          end
+        }
+      }
     else
       getgenv().Hy_ESP.Enabled = false
       print("ESP disabled")
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/esp.lua"))()
+      game.CoreGui:GetDescendants().DrawingLib:Destroy()
     end
   end
 }
 ESP:ColorPicker{
   Style = Lib.ColorPickerStyles.Legacy,
   Callback = function(color)
-    espColor = color
+    getgenv().Hy_ESP.Color = color
     GUI:Notification{
       Title = "Info",
       Text = "ESP color has been changed. If it does not apply immediately, please toggle ESP off and on again.",
