@@ -4,7 +4,7 @@
   │ v1.0.0-New                                                              │
   │ Copyright(c) Rafael Soley R.                                            │
   └─────────────────────────────────────────────────────────────────────────┘
---]]-- // Imports \\ --
+--]] -- // Imports \\ --
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanLib/main/merc.lua"))()
 
 -- // Config \\ --
@@ -14,171 +14,224 @@ local waitTime = 1
 local Noclip = nil
 local Clip = nil
 local player = game.Players.LocalPlayer
+local Aimbot = {
+  Enabled = true,
+  TeamCheck = true,
+  AimPart = "Torso",
+  Sensitivity = 0,
+  CircleSides = 64,
+  CircleColor = Color3.fromRGB(255, 255, 255),
+  CircleTransparency = 0.7,
+  CircleRadius = 80,
+  CircleFilled = false,
+  CircleVisible = true,
+  CircleThickness = 0
+}
 
 -- // Services \\ --
 local Players = game:GetService("Players")
 local Run = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
+local UserInput = game:GetService("UserInputService")
+local Tween = game:GetService("TweenService")
+
+-- // Instances \\ --
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
+FOVCircle.Radius = Aimbot.CircleRadius
+FOVCircle.Filled = Aimbot.CircleFilled
+FOVCircle.Color = Aimbot.CircleColor
+FOVCircle.Visible = Aimbot.CircleVisible
+FOVCircle.Radius = Aimbot.CircleRadius
+FOVCircle.Transparency = Aimbot.CircleTransparency
+FOVCircle.NumSides = Aimbot.CircleSides
+FOVCircle.Thickness = Aimbot.CircleThickness
 
 -- // ESP \\ --
 local mainEsp = loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Exunys-ESP/main/src/ESP.lua"))()
 getgenv().ExunysDeveloperESP = {
-	DeveloperSettings = {
-		Path = "conf.cfg",
-		UnwrapOnCharacterAbsence = false,
-		UpdateMode = "RenderStepped",
-		TeamCheckOption = "TeamColor",
-		RainbowSpeed = 1, -- Bigger = Slower
-		WidthBoundary = 1.5 -- Smaller Value = Bigger Width
-	},
+  DeveloperSettings = {
+    Path = "conf.cfg",
+    UnwrapOnCharacterAbsence = false,
+    UpdateMode = "RenderStepped",
+    TeamCheckOption = "TeamColor",
+    RainbowSpeed = 1, -- Bigger = Slower
+    WidthBoundary = 1.5 -- Smaller Value = Bigger Width
+  },
 
-	Settings = {
-		Enabled = true,
-		PartsOnly = false,
-		TeamCheck = false,
-		AliveCheck = true,
-		LoadConfigOnLaunch = true,
-		EnableTeamColors = false,
-		TeamColor = Color3.fromRGB(170, 170, 255)
-	},
+  Settings = {
+    Enabled = true,
+    PartsOnly = false,
+    TeamCheck = false,
+    AliveCheck = true,
+    LoadConfigOnLaunch = true,
+    EnableTeamColors = false,
+    TeamColor = Color3.fromRGB(170, 170, 255)
+  },
 
-	Properties = {
-		ESP = {
-			Enabled = true,
-			RainbowColor = false,
-			RainbowOutlineColor = true,
-			Offset = 10,
+  Properties = {
+    ESP = {
+      Enabled = true,
+      RainbowColor = false,
+      RainbowOutlineColor = true,
+      Offset = 10,
 
-			Color = Color3.fromRGB(255, 255, 255),
-			Transparency = 1,
-			Size = 14,
+      Color = Color3.fromRGB(255, 255, 255),
+      Transparency = 1,
+      Size = 14,
 
-			OutlineColor = Color3.fromRGB(0, 0, 0),
-			Outline = true,
+      OutlineColor = Color3.fromRGB(0, 0, 0),
+      Outline = true,
 
-			DisplayDistance = true,
-			DisplayHealth = false,
-			DisplayName = false,
-			DisplayDisplayName = true,
-			DisplayTool = true
-		},
+      DisplayDistance = true,
+      DisplayHealth = false,
+      DisplayName = false,
+      DisplayDisplayName = true,
+      DisplayTool = true
+    },
 
-		Tracer = {
-			Enabled = false,
-			RainbowColor = false,
-			RainbowOutlineColor = false,
-			Position = 1, -- 1 = Bottom; 2 = Center; 3 = Mouse
+    Tracer = {
+      Enabled = false,
+      RainbowColor = false,
+      RainbowOutlineColor = false,
+      Position = 1, -- 1 = Bottom; 2 = Center; 3 = Mouse
 
-			Transparency = 1,
-			Thickness = 1,
-			Color = Color3.fromRGB(255, 255, 255),
+      Transparency = 1,
+      Thickness = 1,
+      Color = Color3.fromRGB(255, 255, 255),
 
-			Outline = true,
-			OutlineColor = Color3.fromRGB(0, 0, 0)
-		},
+      Outline = true,
+      OutlineColor = Color3.fromRGB(0, 0, 0)
+    },
 
-		HeadDot = {
-			Enabled = false,
-			RainbowColor = false,
-			RainbowOutlineColor = false,
+    HeadDot = {
+      Enabled = false,
+      RainbowColor = false,
+      RainbowOutlineColor = false,
 
-			Color = Color3.fromRGB(255, 255, 255),
-			Transparency = 1,
-			Thickness = 1,
-			NumSides = 30,
-			Filled = false,
+      Color = Color3.fromRGB(255, 255, 255),
+      Transparency = 1,
+      Thickness = 1,
+      NumSides = 30,
+      Filled = false,
 
-			OutlineColor = Color3.fromRGB(0, 0, 0),
-			Outline = true
-		},
+      OutlineColor = Color3.fromRGB(0, 0, 0),
+      Outline = true
+    },
 
-		Box = {
-			Enabled = true,
-			RainbowColor = false,
-			RainbowOutlineColor = false,
+    Box = {
+      Enabled = true,
+      RainbowColor = false,
+      RainbowOutlineColor = false,
 
-			Color = Color3.fromRGB(255, 255, 255),
-			Transparency = 1,
-			Thickness = 1,
-			Filled = false,
+      Color = Color3.fromRGB(255, 255, 255),
+      Transparency = 1,
+      Thickness = 1,
+      Filled = false,
 
-			OutlineColor = Color3.fromRGB(0, 0, 0),
-			Outline = true
-		},
+      OutlineColor = Color3.fromRGB(0, 0, 0),
+      Outline = true
+    },
 
-		HealthBar = {
-			Enabled = true,
-			RainbowOutlineColor = false,
-			Offset = 4,
-			Blue = 100,
-			Position = 3, -- 1 = Top; 2 = Bottom; 3 = Left; 4 = Right
+    HealthBar = {
+      Enabled = true,
+      RainbowOutlineColor = false,
+      Offset = 4,
+      Blue = 100,
+      Position = 3, -- 1 = Top; 2 = Bottom; 3 = Left; 4 = Right
 
-			Thickness = 1,
-			Transparency = 1,
+      Thickness = 1,
+      Transparency = 1,
 
-			OutlineColor = Color3.fromRGB(0, 0, 0),
-			Outline = true
-		},
+      OutlineColor = Color3.fromRGB(0, 0, 0),
+      Outline = true
+    },
 
-		Chams = {
-			Enabled = false, -- Keep disabled, broken, WIP...
-			RainbowColor = false,
+    Chams = {
+      Enabled = false, -- Keep disabled, broken, WIP...
+      RainbowColor = false,
 
-			Color = Color3.fromRGB(255, 255, 255),
-			Transparency = 0.2,
-			Thickness = 1,
-			Filled = true
-		},
+      Color = Color3.fromRGB(255, 255, 255),
+      Transparency = 0.2,
+      Thickness = 1,
+      Filled = true
+    },
 
-		Crosshair = {
-			Enabled = true,
-			RainbowColor = false,
-			RainbowOutlineColor = false,
-			TStyled = false,
-			Position = 1, -- 1 = Mouse; 2 = Center
+    Crosshair = {
+      Enabled = true,
+      RainbowColor = false,
+      RainbowOutlineColor = false,
+      TStyled = false,
+      Position = 1, -- 1 = Mouse; 2 = Center
 
-			Size = 12,
-			GapSize = 6,
-			Rotation = 0,
+      Size = 12,
+      GapSize = 6,
+      Rotation = 0,
 
-			Rotate = false,
-			RotateClockwise = true,
-			RotationSpeed = 5,
+      Rotate = false,
+      RotateClockwise = true,
+      RotationSpeed = 5,
 
-			PulseGap = false,
-			PulsingStep = 10,
-			PulsingSpeed = 5,
-			PulsingBounds = {4, 8}, -- {...}[1] => GapSize Min; {...}[2] => GapSize Max
+      PulseGap = false,
+      PulsingStep = 10,
+      PulsingSpeed = 5,
+      PulsingBounds = {4, 8}, -- {...}[1] => GapSize Min; {...}[2] => GapSize Max
 
-			Color = Color3.fromRGB(0, 255, 0),
-			Thickness = 1,
-			Transparency = 1,
+      Color = Color3.fromRGB(0, 255, 0),
+      Thickness = 1,
+      Transparency = 1,
 
-			OutlineColor = Color3.fromRGB(0, 0, 0),
-			Outline = true,
+      OutlineColor = Color3.fromRGB(0, 0, 0),
+      Outline = true,
 
-			CenterDot = {
-				Enabled = false,
-				RainbowColor = false,
-				RainbowOutlineColor = false,
+      CenterDot = {
+        Enabled = false,
+        RainbowColor = false,
+        RainbowOutlineColor = false,
 
-				Radius = 2,
+        Radius = 2,
 
-				Color = Color3.fromRGB(0, 255, 0),
-				Transparency = 1,
-				Thickness = 1,
-				NumSides = 60,
-				Filled = false,
+        Color = Color3.fromRGB(0, 255, 0),
+        Transparency = 1,
+        Thickness = 1,
+        NumSides = 60,
+        Filled = false,
 
-				OutlineColor = Color3.fromRGB(0, 0, 0),
-				Outline = true
-			}
-		}
-	}
+        OutlineColor = Color3.fromRGB(0, 0, 0),
+        Outline = true
+      }
+    }
+  }
 
-	-- The rest is core data for the functionality of the module...
+  -- The rest is core data for the functionality of the module...
 }
 
 -- // Events \\ --
+UserInput.InputBegan:Connect(function(Input)
+  if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+    Holding = true
+  end
+end)
+UserInput.InputEnded:Connect(function(Input)
+  if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+    Holding = false
+  end
+end)
+Run.RenderStepped:Connect(function()
+  FOVCircle.Position = Vector2.new(UserInput:GetMouseLocation().X, UserInput:GetMouseLocation().Y)
+  FOVCircle.Radius = Aimbot.CircleRadius
+  FOVCircle.Filled = Aimbot.CircleFilled
+  FOVCircle.Color = Aimbot.CircleColor
+  FOVCircle.Visible = Aimbot.CircleVisible
+  FOVCircle.Radius = Aimbot.CircleRadius
+  FOVCircle.Transparency = Aimbot.CircleTransparency
+  FOVCircle.NumSides = Aimbot.CircleSides
+  FOVCircle.Thickness = Aimbot.CircleThickness
+
+  if Holding == true and Aimbot.Enabled == true then
+    Tween:Create(Camera, TweenInfo.new(Aimbot.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, GetClosestPlayer().Character[Aimbot.AimPart].Position)}):Play()
+  end
+end)
 
 -- // Functions \\ --
 function noclip()
@@ -203,6 +256,44 @@ function clip()
   Clip = true
 end
 
+function GetClosestPlayer()
+  local MaximumDistance = Aimbot.CircleRadius
+  local Target = nil
+
+  for _, v in next, Players:GetPlayers() do
+    if v.Name ~= player.Name then
+      if Aimbot.TeamCheck == true then
+        if v.Team ~= player.Team then
+          if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and
+            v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+            local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge)
+                                                            .Position)
+            local VectorDistance = (Vector2.new(UserInput:GetMouseLocation().X, UserInput:GetMouseLocation().Y) -
+                                     Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+            if VectorDistance < MaximumDistance then
+              Target = v
+            end
+          end
+        end
+      end
+    else
+      if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and
+        v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+        local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+        local VectorDistance = (Vector2.new(UserInput:GetMouseLocation().X, UserInput:GetMouseLocation().Y) -
+                                 Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+        if VectorDistance < MaximumDistance then
+          Target = v
+        end
+      end
+    end
+  end
+
+  return Target
+end
+
 -- // Main \\ --
 local GUI = Lib:Create{
   Name = "DanHub",
@@ -210,11 +301,6 @@ local GUI = Lib:Create{
   Theme = Lib.Themes.Dark,
   Link = "https://github.com/rsley/DanHub"
 }
--- GUI:Credit{
---  Name = "IDEalistic",
---  Description = "Developed the script and modified the library",
---  Discord = "idealistical"
--- }
 GUI:Notification{
   Title = "Welcome",
   Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
@@ -233,6 +319,10 @@ local Local = GUI:Tab{
 }
 local ESP = GUI:Tab{
   Name = "ESP",
+  Icon = "rbxassetid://8569322835"
+}
+local Combat = GUI:Tab{
+  Name = "Combat",
   Icon = "rbxassetid://8569322835"
 }
 
@@ -306,7 +396,8 @@ Main:Button{
   Name = "Vape V4",
   Description = "Vape V4 for Roblox, by 7GrandDadPGN",
   Callback = function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua",
+      true))()
   end
 }
 
@@ -431,5 +522,95 @@ ESP:Toggle{
         }
       }
     end
+  end
+}
+
+-- // Combat Tab \\ --
+Combat:Toggle{
+  Name = "Aimbot",
+  StartingState = false,
+  Description = "Aims at the closest player",
+  Callback = function(state)
+    Aimbot.Enabled = state
+  end
+}
+Combat:ColorPicker{
+  Style = Lib.ColorPickerStyles.Legacy,
+  Callback = function(color)
+    Aimbot.CircleColor = color
+  end
+}
+Combat:Toggle{
+  Name = "Team Check",
+  StartingState = false,
+  Description = "Checks if the player is on your team",
+  Callback = function(state)
+    Aimbot.TeamCheck = state
+  end
+}
+Combat:Dropdown{
+  Name = "Aim Part",
+  StartingText = "Torso",
+  Description = "The part to aim at",
+  Items = {
+    "Head",
+    "Torso",
+    "HumanoidRootPart"
+  },
+}
+Combat:Slider{
+  Name = "Sensitivity",
+  Description = "Changes the sensitivity of the aimbot",
+  Default = 0,
+  Min = 0,
+  Max = 1,
+  Callback = function(value)
+    Aimbot.Sensitivity = value
+  end
+}
+Combat:Slider{
+  Name = "Circle Radius",
+  Description = "Changes the radius of the circle",
+  Default = 80,
+  Min = 80,
+  Max = 500,
+  Callback = function(value)
+    Aimbot.CircleRadius = value
+  end
+}
+Combat:Toggle{
+  Name = "Circle Filled",
+  StartingState = false,
+  Description = "Fills the circle",
+  Callback = function(state)
+    Aimbot.CircleFilled = state
+  end
+}
+Combat:Toggle{
+  Name = "Circle Visible",
+  StartingState = true,
+  Description = "Makes the circle visible",
+  Callback = function(state)
+    Aimbot.CircleVisible = state
+  end
+}
+Combat:Slider{
+  Name = "Circle Transparency",
+  Description = "Changes the transparency of the circle",
+  Default = 0.7,
+  Min = 0,
+  Max = 1,
+  Callback = function(value)
+    Aimbot.CircleTransparency = value
+  end
+}
+Combat:Slider{
+  Name = "Circle Thickness",
+  Description = "Changes the thickness of the circle",
+  Default = 0,
+  Min = 0,
+  Max = 10,
+  Callback = function(value)
+    Aimbot.CircleThickness = value
   end
 }
