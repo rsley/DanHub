@@ -13,6 +13,7 @@ local textToSpam = "DanHub is the best hub"
 local waitTime = 1
 local Noclip = nil
 local Clip = nil
+local devMode = getgenv().Hy_Dev or false
 local player = game.Players.LocalPlayer
 local Aimbot = {
   Enabled = false,
@@ -609,6 +610,16 @@ Combat:Toggle{
     end
   end
 }
+if devMode then
+  Combat:Toggle{
+    Name = "Silent Aim (DEV)",
+    StartingState = false,
+    Description = "Aims at the closest player without moving your camera",
+    Callback = function(state)
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/dev/beta.silentaim.lua"))()
+    end
+  }
+end
 Combat:ColorPicker{
   Style = Lib.ColorPickerStyles.Legacy,
   Callback = function(color)
