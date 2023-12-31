@@ -256,6 +256,13 @@ Main:Button{
   end
 }
 Main:Button{
+  Name = "Build Tools",
+  Description = "Gives you build tools by F3X",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/utils/btools.lua"))()
+  end
+}
+Main:Button{
   Name = "Dex Explorer",
   Description = "Opens Dex Explorer",
   Callback = function()
@@ -275,17 +282,17 @@ Main:Button{
   end
 }
 Main:Button{
-  Name = "Infinite Yield",
-  Description = "Admin commands, just without actual admin.",
-  Callback = function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-  end
-}
-Main:Button{
   Name = "RemoteSpy",
   Description = "Spy for remote events",
   Callback = function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpySource.lua"))()
+  end
+}
+Main:Button{
+  Name = "Infinite Yield",
+  Description = "Admin commands, just without actual admin.",
+  Callback = function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
   end
 }
 Main:Button{
