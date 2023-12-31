@@ -13,7 +13,7 @@ local textToSpam = "DanHub is the best hub"
 local waitTime = 1
 local Noclip = nil
 local Clip = nil
-local devMode = getgenv().Hy_Dev or false
+local devMode = getgenv().Hy_Dev
 local player = game.Players.LocalPlayer
 local Aimbot = {
   Enabled = false,
@@ -32,6 +32,9 @@ local gmt = getrawmetatable(game)
 setreadonly(gmt, false)
 local oldNamecall = gmt.__namecall
 
+if not dev then
+  dev = false
+end
 -- // Services \\ --
 local Players = game:GetService("Players")
 local Run = game:GetService("RunService")
@@ -356,12 +359,21 @@ local GUI = Lib:Create{
   Theme = Lib.Themes.Dark,
   Link = "https://github.com/rsley/DanHub"
 }
+if not dev then
 GUI:Notification{
   Title = "Welcome",
   Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
     game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
   Duration = 3
 }
+else
+  GUI:Notification{
+    Title = "Developer Mode",
+    Text = "Welcome to DanHub, made by IDEalistic, your current game is " ..
+      game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. ".",
+    Duration = 3
+  }
+end
 
 -- // Tabs \\ --
 local Main = GUI:Tab{
