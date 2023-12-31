@@ -25,7 +25,7 @@ local Aimbot = {
   CircleTransparency = 0.7,
   CircleRadius = 120,
   CircleFilled = false,
-  CircleVisible = true,
+  CircleVisible = false,
   CircleThickness = 0
 }
 local gmt = getrawmetatable(game)
@@ -672,7 +672,7 @@ Combat:Slider{
 Combat:Slider{
   Name = "Circle Radius",
   Description = "Changes the radius of the circle",
-  Default = 80,
+  Default = 120,
   Min = 80,
   Max = 500,
   Callback = function(value)
@@ -689,7 +689,7 @@ Combat:Toggle{
 }
 Combat:Toggle{
   Name = "Circle Visible",
-  StartingState = true,
+  StartingState = false,
   Description = "Makes the circle visible",
   Callback = function(state)
     Aimbot.CircleVisible = state
