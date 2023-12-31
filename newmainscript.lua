@@ -597,6 +597,13 @@ ESP:Toggle{
 }
 
 -- // Combat Tab \\ --
+Combat:Button{
+  Name = "Averiias",
+  Description = "Universal silent aim",
+  Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/rsley/DanHub/main/dev/beta.silentaim.lua"))()
+  end
+}
 Combat:Toggle{
   Name = "Aimbot",
   StartingState = false,
